@@ -1,0 +1,43 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// An automaton that recognizes strings of the form W over {0,1}*.
+//    
+//   Where:
+//     W does not have 3 consecutive 1's
+//
+// Tutorial Link: https://www.youtube.com/watch?v=9nrDx2oovuo
+//-----------------------
+
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := {"A", "B", "C", "D"}
+	Σ := {'0', '1'}
+	q := "A"
+	F := {"A", "B", "C"}
+	
+	A : GDeterministicAutomaton := GDeterministicAutomaton(Q, Σ, q, F, δ)
+	GAutomataFrame.show(A)
+end
+
+function δ(q, σ) begin
+	if q = "A" && σ = '1' then
+		return "B"
+	elseif q = "B" && σ = '1' then
+		return "C"
+	elseif q = "C" && σ = '1' then
+		return "D"
+	elseif q = "D" then
+		return "D"
+	elseif σ = '0' then
+		return "A"
+	end
+end
+
+

@@ -1,0 +1,95 @@
+// -----------------------
+// Silvia Takahashi
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// An automaton that recognizes strings of  the form W$V.
+//    
+//   Where:
+//     WV has all the letters in ∑  	
+//     W ∈ ∑*,   	   V ∈ ∑*,   	   	
+//     No symbol in W appears in V
+//
+// Tutorial Link: https://www.youtube.com/watch?v=LSbnOUkcUy0&t=5s
+//-----------------------
+//   By default  A = ('a' ‥ 'g'), it can be changed invoking the program with a string  of symbols. 
+//   A  will contain all the the symbols in the string
+//  
+
+using gold.**
+
+var  A  
+
+procedure main(args:String[]) begin
+ 	   
+	if  args.length=0  then  A:=('a' ‥ 'g')
+	else	
+		A := {args[0].charAt(i) |  0 ≤ i < args[0].length()}\{'$'}
+    end
+    M := create()
+   //GAutomataFrame.show(M)
+   testPerm(M)
+ end
+
+        
+   
+    
+function create():IAutomaton begin
+	S = ℘(A)
+	S1 = ℘(A) ∪ {0}
+	Q = {⟨P,Q⟩| Q in S, P in ℘(Q)} ∪ S1
+	
+
+	Σ:= A ∪ {'$'}
+	q₀ := Ø
+	F:= {Ø}×℘(A)
+	
+	M:=GDeterministicAutomaton(Q,Σ,q₀,F,delta)
+	return M
+ end
+
+function delta(q, s) begin
+    if q = 0 then return 0
+    
+    elseif q in   ℘(A) and s='$' then return ⟨A\q, A\q⟩
+    elseif q in   ℘(A) then return q ∪ {s}  	
+    elseif s= '$' then return 0
+    else return delta1(q,s) 
+    end
+ end
+ 
+    
+ function delta1(⟨s1,s2⟩,s) begin   
+    	if s in s2 then return ⟨s1\{s}, s2⟩
+       else return 0
+     end
+end
+
+
+
+//  procedure to test the automata without the graphical interface 
+procedure testPerm(C:IAutomaton) begin
+ 	var sc:java.util.Scanner(System.$in)
+ 	var  string: String
+   	
+     
+   	print  "Testing"
+
+	while true do
+		print "----------------------------"
+		print "Enter a string:"
+		string:=sc.nextLine()
+		if string = "STOP" then  break end
+		print(string)
+		result:=C.acceptsString(string)
+		print(result)
+		print "The string was "+(result?"accepted":"REJECTED") 
+	end
+	print "End test"
+ 
+end
+
+
+
