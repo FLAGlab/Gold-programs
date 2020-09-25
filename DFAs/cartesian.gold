@@ -1,0 +1,54 @@
+// -----------------------
+// Silvia Takahashi
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// An automaton that recognizes strings W in {0,1}*.
+//    
+//   Where:
+//     W has length equal to zero modulo 8  	
+//     For each substring of length 8 in W, its last bit is the    	   	
+//     parity bit of the previous 7 bits
+// 
+// Tutorial: https://www.youtube.com/watch?v=BpUjhR4bPqk
+//-----------------------
+// 
+
+using gold.**
+
+
+procedure main(args:String[]) begin
+ 	   
+    A := createAutomaton()
+    GAutomataFrame.show(A)
+   
+ end  
+    
+function getName() begin
+	return "Parity Checker"
+end
+	
+function createAutomaton():IAutomaton begin
+	Q = {i|0≤i≤7}×{i|0≤i≤1}
+	Σ:= "01"
+	q₀ := ⟨0, 0⟩
+	F:= {⟨0, 0⟩}
+	
+	M:=GDeterministicAutomaton(Q,Σ,q₀,F,δ)
+	return M
+ end
+
+function δ(⟨x,y⟩, σ) begin
+    if ⟨x,y⟩=⟨0, 1⟩ then 
+    	return ⟨x, y⟩ 
+    elseif x=7 then
+    	return σ-'0'==y?⟨0, 0⟩:⟨0, 1⟩
+    else 
+    	return ⟨x+1,(y+(σ-'0'))%2⟩
+    end
+ end
+ 
+
+
