@@ -1,0 +1,38 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// An automaton that recognizes strings W in {0,1}*.
+//    
+//   Where:
+//     W has odd length  	
+//     W has and even number of ones
+// This automaton is represented as the difference automaton 
+// of the first condition and the second condition
+//-----------------------
+// 
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q1 := (0‥1)
+	Q:= Q1×Q1	
+	Σ := {'0', '1'}
+	F1 := {1}
+	F2 := {0}
+	F:= {⟨p,q⟩ | p∈ F1,  q ∈ Q1 \ F2}
+	q := ⟨0, 0⟩
+
+	A : GDeterministicAutomaton := GDeterministicAutomaton(Q, Σ, q, F, δ)
+	GAutomataFrame.show(A)
+
+end
+
+
+function δ(⟨x, y⟩, σ) begin
+	return ⟨(x+1)%2, (y+σ)%2⟩
+end
+
