@@ -1,0 +1,48 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// An transducer that recognizes binary strings W.
+// for every bit pair, it responds its decimal representation
+//-----------------------
+// 
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	M := createTransducer()
+	GAutomataFrame.show(M)
+end
+
+function createTransducer() : ITransducer begin
+	Q := {"Init",'0','1'}
+	Σ := {'0', '1'}
+	Γ := ('0'‥'3')
+	q0 := "Init"
+	F := {"Init"}
+	return GDeterministicTransducer(Q,Σ,Γ,q0,F,δ,g,h)
+end
+
+function δ(q, σ) begin
+	if q = "Init" then
+		return σ
+	else
+		return "Init"	
+	end
+end
+
+function h(q, σ) begin
+	if q = "Init" then
+		return λ
+	else
+		return (q-'0')*2 + (σ-'0')
+	end
+	
+end
+
+function g(q) begin
+	return λ
+end
