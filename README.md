@@ -10,6 +10,7 @@ This repository contains examples of machines built using Gold
   - Pushdown Automata
 2. Turing machines
 
+3. Petri nets (not Gold)
 
 
 [DFA]:https://github.com/FLAGlab/Gold-programs/tree/master/DFAs
