@@ -1,0 +1,54 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := {"A", "D", "E"}
+	Σ := {'0', '1'}
+	Γ := {'0', '1'}
+	q := "A"
+	F := {"A"}
+	
+	A := GDeterministicTransducer(Q, Σ, Γ, q, F, δ, g, h)
+	GAutomataFrame.show(A)
+end
+
+function δ(q, σ) begin
+	if q = "A" then
+		if σ = '1' then
+			return "E"
+		else
+			return "D"
+		end
+	elseif q = "E" then
+		if σ = '1' then
+			return "E"
+		else
+			return "D"
+		end
+	else
+		if σ = '1' then
+			return "A"
+		else
+			return "E"
+		end
+	end
+end
+	
+function g(q) begin
+	return λ
+end
+
+
+function h(q, σ) begin
+	if q = "A" then
+		return '1'
+	elseif q = "E" then
+		if σ = '1' then
+			return '0'
+		else
+			return '1'
+		end
+	else
+		return σ
+	end
+end
