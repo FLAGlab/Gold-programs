@@ -1,0 +1,59 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// A Moore transducer that recognizes binary strings W.
+// for every bit pair, it responds its decimal representation
+//-----------------------
+// 
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	M := createTransducer()
+	GAutomataFrame.show(M)
+end
+
+function createTransducer() : ITransducer begin
+	Q := {"Init0","Init1", "Init2", "Init3",0,1}
+	Σ := {'0', '1'}
+	Γ := ('0'‥'3')
+	q0 := "Init0"
+	F := {"Init0", "Init1", "Init2", "Init3"}
+	return GDeterministicTransducer(Q,Σ,Γ,q0,F,δ,g,h)
+end
+
+function δ(q, σ) begin
+	if q = 0 then
+		return "Init"+σ
+	elseif q = 1 &&  σ = '0' then
+		return "Init2"
+	elseif q = 1 &&  σ = '1' then
+		return "Init3"
+	elseif σ='0' then
+		return 0
+	else
+		return 1
+	end
+end
+
+function h(q, σ) begin
+		return λ
+end
+
+function g(q) begin
+	if q = "Init0" then
+		return 0
+	elseif q = "Init1" then
+		return 1
+	elseif q = "Init2" then
+		return 2
+	elseif q = "Init3" then
+		return 3
+	else
+		return λ
+	end
+end
