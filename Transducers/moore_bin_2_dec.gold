@@ -7,6 +7,8 @@
 //  
 // A Moore transducer that recognizes binary strings W.
 // for every bit pair, it responds its decimal representation
+
+//Tutorial: https://www.youtube.com/watch?v=VYzuyyPOK8o
 //-----------------------
 // 
 using gold.structures.automaton.*
