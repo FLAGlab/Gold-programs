@@ -1,0 +1,36 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// Pushdown automaton that recognizes strings of the form W over {a,b}*.
+//    
+//   Where:
+//     W has the same number of a's and b's, with at least one character of each symbol
+//
+// Tutorial Link: 
+//-----------------------
+
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+
+
+procedure main(args:String[]) begin
+	Q:={"A", "B"}	//state set
+	Σ:={'a', 'b'}	//input alphabet
+	Γ:={'0'}  	//stack alphabet
+	q₀:="A"		//initial state
+	F:={"B"}	//final state set
+	
+	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+	//Definition of the transitions with their operation on the stack
+	//Add '0' to the top of the stack
+	M.delta("A", "A", "a").push("0")
+	//Remove '0' from the top of the stack, if that is the symbol at the top
+	M.delta("A", "B", "b").pop("0")
+	M.delta("B", "B", "b").pop("0")
+	GAutomataFrame.show(M)
+end
