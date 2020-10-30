@@ -10,7 +10,7 @@
 //   Where:
 //     W has the same number of a's and b's, with at least one character of each symbol
 //
-// Tutorial Link: 
+// Tutorial Link: https://youtu.be/yEijuWckjLQ
 //-----------------------
 
 using gold.structures.automaton.*
