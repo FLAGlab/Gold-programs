@@ -1,0 +1,32 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// Pushdown automaton definition for the language over {a,b}*.
+// recognizing words with the same number of a's and b's.
+// This definition recognizes the words from the grammar definition
+//
+//-----------------------
+
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q:={"A","B", "C"}
+	Σ:={'a','b'}
+	Γ:={'$','S','a','b'}
+	q₀:="A"
+	F:={"B"}
+	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+	M.delta("A","B","").push("$")
+	M.delta("B","C","").pop("$")
+	M.delta("B","B","").changeTop("S","ba")
+	M.delta("B","B","").changeTop("S","bSa")
+	M.delta("B","B","").changeTop("$","bSa")
+	M.delta("B","B","a").pop("a")
+	M.delta("B","B","b").pop("b")
+	GAutomataFrame.show(M)
+end
