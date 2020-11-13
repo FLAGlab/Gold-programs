@@ -1,3 +1,17 @@
+// -----------------------
+// Nicolas Cardozo
+// UNIVERSIDAD DE LOS ANDES
+// LyM
+//------------------------------
+// 
+//  
+// Turing machine that recognizes strings of the form wcw 
+//    
+//   Where:
+//     w is a string in {x,y,z}*
+//
+// Tutorial Link: 
+//-----------------------
 // Automaton type (ψ):
 ψ = TM
 // Turing Machine name (Z):
