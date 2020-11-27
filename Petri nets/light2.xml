@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><pnml>
+<net id="Net-One" type="P/T net">
+<place id="P0">
+<graphics>
+<position x="223.0" y="203.0"/>
+</graphics>
+<name>
+<value>red</value>
+<graphics>
+<offset x="-29.0" y="2.0"/>
+</graphics>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>1</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<initialMarking>
+<value>1</value>
+<graphics/>
+</initialMarking>
+<capacity>
+<value>1</value>
+</capacity>
+</place>
+<place id="P1">
+<graphics>
+<position x="459.0" y="207.0"/>
+</graphics>
+<name>
+<value>yellow</value>
+<graphics>
+<offset x="39.0" y="-3.0"/>
+</graphics>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>1</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<initialMarking>
+<value>0</value>
+<graphics/>
+</initialMarking>
+<capacity>
+<value>1</value>
+</capacity>
+</place>
+<place id="P2">
+<graphics>
+<position x="334.0" y="355.0"/>
+</graphics>
+<name>
+<value>green</value>
+<graphics>
+<offset x="-13.0" y="20.0"/>
+</graphics>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>1</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<initialMarking>
+<value>0</value>
+<graphics/>
+</initialMarking>
+<capacity>
+<value>1</value>
+</capacity>
+</place>
+<transition id="T0">
+<graphics>
+<position x="348.0" y="181.0"/>
+</graphics>
+<name>
+<value/>
+<graphics/>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<angle>
+<value>0</value>
+</angle>
+<firingDelay>
+<value>-1.0</value>
+<graphics/>
+</firingDelay>
+<firingFunction>
+<value/>
+<graphics/>
+</firingFunction>
+</transition>
+<transition id="T1">
+<graphics>
+<position x="344.0" y="239.0"/>
+</graphics>
+<name>
+<value/>
+<graphics/>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<angle>
+<value>0</value>
+</angle>
+<firingDelay>
+<value>-1.0</value>
+<graphics/>
+</firingDelay>
+<firingFunction>
+<value/>
+<graphics/>
+</firingFunction>
+</transition>
+<transition id="T2">
+<graphics>
+<position x="474.0" y="353.0"/>
+</graphics>
+<name>
+<value/>
+<graphics/>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<angle>
+<value>0</value>
+</angle>
+<firingDelay>
+<value>-1.0</value>
+<graphics/>
+</firingDelay>
+<firingFunction>
+<value/>
+<graphics/>
+</firingFunction>
+</transition>
+<transition id="T3">
+<graphics>
+<position x="345.0" y="103.0"/>
+</graphics>
+<name>
+<value/>
+<graphics/>
+</name>
+<place-transitiontype>
+<value>D</value>
+</place-transitiontype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<scale>
+<value>1.0</value>
+</scale>
+<angle>
+<value>0</value>
+</angle>
+<firingDelay>
+<value>-1.0</value>
+<graphics/>
+</firingDelay>
+<firingFunction>
+<value/>
+<graphics/>
+</firingFunction>
+</transition>
+<arc id="P0 to T0" source="P0" target="T0">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="248" y="211" curvePoint="false"/>
+<arcpath id="001" x="343" y="197" curvePoint="false"/>
+</arc>
+<arc id="P0 to T1" source="P0" target="T1">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="248" y="218" curvePoint="false"/>
+<arcpath id="001" x="339" y="250" curvePoint="false"/>
+</arc>
+<arc id="P1 to T1" source="P1" target="T1">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="455" y="221" curvePoint="false"/>
+<arcpath id="001" x="349" y="250" curvePoint="false"/>
+</arc>
+<arc id="P1 to T3" source="P1" target="T3">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="458" y="208" curvePoint="false"/>
+<arcpath id="001" x="350" y="114" curvePoint="false"/>
+</arc>
+<arc id="P2 to T2" source="P2" target="T2">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="359" y="365" curvePoint="false"/>
+<arcpath id="001" x="469" y="364" curvePoint="false"/>
+</arc>
+<arc id="T0 to P0" source="T0" target="P0">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="344" y="187" curvePoint="false"/>
+<arcpath id="001" x="248" y="210" curvePoint="false"/>
+</arc>
+<arc id="T0 to P1" source="T0" target="P1">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="353" y="192" curvePoint="false"/>
+<arcpath id="001" x="455" y="214" curvePoint="false"/>
+</arc>
+<arc id="T1 to P2" source="T1" target="P2">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="345" y="265" curvePoint="false"/>
+<arcpath id="001" x="345" y="351" curvePoint="false"/>
+</arc>
+<arc id="T2 to P1" source="T2" target="P1">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="475" y="349" curvePoint="false"/>
+<arcpath id="001" x="470" y="232" curvePoint="false"/>
+</arc>
+<arc id="T3 to P0" source="T3" target="P0">
+<arctype>
+<value>N</value>
+</arctype>
+<showLabel>
+<position1>0</position1>
+<position2>0</position2>
+<position3>0</position3>
+</showLabel>
+<graphics/>
+<inscription>
+<value>1.0</value>
+<graphics/>
+</inscription>
+<arcpath id="000" x="340" y="114" curvePoint="false"/>
+<arcpath id="001" x="244" y="203" curvePoint="false"/>
+</arc>
+</net>
+</pnml>
