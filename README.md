@@ -29,4 +29,5 @@ The example Petri net programs bellow are defined using both the HiPS : Hierarch
 [TMs]:https://github.com/FLAGlab/Gold-programs/tree/master/TuringMachines
 [1q1p]:https://github.com/FLAGlab/Gold-programs/blob/master/Petri%20nets/1q1p
 [1q2p]:https://github.com/FLAGlab/Gold-programs/blob/master/Petri%20nets/1q2p
+[traffic]:https://github.com/FLAGlab/Gold-programs/blob/master/Petri%20nets/trafficLight
 [count]:https://github.com/FLAGlab/Gold-programs/blob/master/Petri%20nets/Count
