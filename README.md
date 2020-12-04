@@ -12,7 +12,7 @@ This repository contains examples of machines built using Gold
 
 
 # Petri nets
-The example Petri net programs bellow are defined using both the HiPS : Hierarchical Petri net Simulator<https://sourceforge.net/projects/hips-tools/> using the `.hps` files (for windows users), and Hybrid Petri Net ICSI Simulator<https://sourceforge.net/projects/hisim/> using the `.xml` files (java based simulator).
+The example Petri net programs bellow are defined using both the HiPS : Hierarchical Petri net  Simulator<https://sourceforge.net/projects/hips-tools/> using the `.hps` files (for windows users), and Hybrid Petri Net ICSI Simulator<https://sourceforge.net/projects/hisim/> using the `.xml` files (java based simulator).
 
 
 | Problem Name | Description | Invariant |
