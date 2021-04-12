@@ -1,0 +1,142 @@
+using gold.**
+// -----------------------
+// Silvia Takahashi
+// UNIVERSIDAD DE LOS ANDES
+//------------------------------
+// 
+//  
+//  A finite state transducer
+//    Input:   xyz:W'#
+//    where  x y and z are distinct
+//        xyx in Aˆ3
+//     W in A*
+// Output:  xyz:X#
+//  where X is obtained by replacing $ for all occurrences of xyz
+//-----------------------
+//   By default  the alphabet is A  = {'a', 't', 'c'}, it can be changed invoking the program with a string  of symbols. 
+//   A  will contain all the the symbols in the parameter
+//  
+//  
+
+var  A  
+
+procedure main(args:String[]) begin
+ 	    
+ 	  
+  
+	if  args.length=0  then  A:= { 'a', 'c', 't'}
+	else	
+		A := {args[0].charAt(i) |  0 ≤ i < args[0].length()}\{'$','#'}
+    end
+	//GAutomataFrame.show(createFA())
+	test(createFA())
+end
+
+
+
+
+function createFA():ITransducer begin
+	Ls := A
+	M0 := {""}
+	M1 := {""+a|a∈Ls}
+	M2 := {""+a+b| a∈Ls,b∈Ls\{a}}
+	M3 := {""+a+b+c|a∈Ls,b∈Ls\{a},c∈Ls\{b,a}}
+	Q:=  {⟨s⟩|s∈M1∪ M2∪M3∪M0} ∪ {⟨s,d⟩|s∈M3, 0 ≤d≤ 2}∪{"E","F"}
+	print Q
+	
+	Σ:= A ∪  { '#',':'}
+	O := Σ  ∪  { '$'}
+	q₀:=⟨""⟩
+	F:={"F"} 
+	return GDeterministicTransducer(Q,Σ,O,q₀,F,δ,g,h)
+end
+
+g(x):= ""
+procedure test(M:ITransducer) begin
+	var sc:java.util.Scanner(System.$in)
+	
+		var string: String
+			
+			
+		repeat 
+		
+			print "----------------------------"
+			print "Input a string of the form xyz:W. with xyz and W  over "+A +"  (end with an empty string)"
+			string:=sc.nextLine()
+			if string ≠ λ then
+				result:=M.acceptsString(string)
+				print "The string was "+(result?"accepted":"not accepted")+". Output: "+M.getOutputString()		
+			end
+		until string=λ
+		
+		
+	
+	print "Execution Terminated"
+end
+
+
+function δ(q,σ) begin
+    var s:String
+	
+	if q = "E" or q ="F" then
+		return "E"
+    elseif |q| = 1 then
+      s:= q[0]
+   	  if s.length()  = 0  and σ≠ '#' and σ≠ ':' then
+        return   	⟨""+σ⟩
+      elseif s.length()  = 1 and σ≠s.charAt(0)   and σ≠ '#' and σ≠ ':'then
+        return   	⟨""+s+σ⟩
+      elseif s.length()  = 2 and σ≠s.charAt(0) and σ≠s.charAt(1) and σ≠ '#'  and σ≠ ':' then
+        return   	⟨""+s+σ⟩
+      elseif s.length() = 3  and σ = ':' then
+   	      return   	⟨s,0⟩
+   	   else 
+   	    	return "E"
+   	   end
+   	else // |q| = 2
+   	  s,p:= q[0],q[1]
+   	  if  σ = ':' then return   	"E" 
+   	  elseif  σ = '#' then return   	"F"
+   	  elseif p=0 and σ=s.charAt(0) then return ⟨s,1⟩
+   	  elseif p=0  then return ⟨s,0⟩
+   	  elseif p=1 and  σ=s.charAt(0) then return ⟨s,1⟩
+   	  elseif p=1 and  σ=s.charAt(1) then return ⟨s,2⟩
+   	  elseif p=1  then return ⟨s,0⟩
+   	  elseif p=2 and  σ=s.charAt(0) then return ⟨s,1⟩
+   	  else return	⟨s,0⟩
+   	  end
+end
+end
+
+ 
+function h(q,σ) begin
+    var s:String
+	if q = "E" or q ="F" then
+		return ""
+   elseif |q| = 1 then
+      s:= q[0]
+   	  if s.length()  = 0 then
+        return   	""+σ
+      elseif s.length()  = 1 and σ≠s.charAt(0)  then
+        return   		""+σ
+      elseif s.length()  = 2 and σ≠s.charAt(0) and σ≠s.charAt(1) then
+        return   		""+σ
+      elseif s.length() = 3  and σ =':' then
+   	      return   	":"
+      else  return ""
+   	   end
+   	else // |q| = 2
+   	  s,p:= q[0],q[1]
+   	  if  σ='#' then return s.substring(0,p) +"#"
+   	  elseif p=0 and σ=s.charAt(0) then return  ""
+   	  elseif p=0  then return ""+σ
+   	  elseif p=1 and  σ=s.charAt(0) then return s.charAt(0)
+   	  elseif p=1 and  σ=s.charAt(1) then return  ""
+   	  elseif p=1 then return ""+s.charAt(0)+σ
+   	  elseif p=2 and  σ=s.charAt(0) then return ""+s.charAt(0)+s.charAt(1)
+   	  elseif p=2 and  σ=s.charAt(2) then return "$"
+   	  else return	 ""+s.charAt(0)+s.charAt(1)+σ
+   	  end
+end
+end
+

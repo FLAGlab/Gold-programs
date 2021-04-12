@@ -1,0 +1,92 @@
+
+
+
+using gold.**
+
+
+procedure test(M:IAutomaton) begin
+	var sc:java.util.Scanner(System.$in)
+	isTransducer:=ITransducer.class.isInstance(M)
+	while true do
+		print "----------------------------"
+		print "Input String (empty string to exit): "
+		
+		string:=sc.nextLine()
+		if string = "" then break end
+		result:=M.acceptsString(string)
+		print "The string was "+(result?"accepted!":"rejected.")+(isTransducer?". Output:":"")
+		if isTransducer then
+			print (M as ITransducer).getOutputString()
+		end
+	end
+	print "Execution terminated"
+end
+
+
+
+chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
+elements(array) :=  {array[i]| 0 <= i < |array| }
+
+procedure testCodeDecode(C:ITransducer, D:ITransducer) begin
+	var sc:java.util.Scanner(System.$in)
+   
+     inputC = elements(C.getInputAlphabet())
+     inputD = elements(D.getInputAlphabet())
+    
+    print  "Testing Coder-Decoder"
+    string = " "
+    repeat
+		print "----------------------------"
+		print "Input string: (empty string to end)"
+		
+			string:=sc.nextLine()
+			if string = 	λ then break
+			else
+              option := λ
+              while option  ∉ {"1","2", "3"} do
+              	print "What do you want to do?"
+		       	print "1. code only?"
+		       	print "2. code and decode?"
+		       	print "3. decode only?"
+		       	
+		       	option := sc.nextLine()
+				end
+		       stringOut:= ""
+ 				if option="1" or option="2"  then
+     
+      				if chars(string) ⊆ inputC then
+                     result:=C.acceptsString(string)
+						print "The string was "+(result?"accepted":"not accepted")+". Output: "+C.getOutputString()	
+						stringOut = C.getOutputString()
+						if option="2" then	
+							if chars(stringOut) ⊆ inputD then
+					    		result:=D.acceptsString(stringOut)
+								print "The coded string was "+(result?"accepted":"not accepted")+". Output: "+D.getOutputString()	
+								stringOut1 = D.getOutputString()
+								print "The decoded string is "+ (stringOut1!=string?"not ":λ)+"equal to the original string." 
+					       else
+					       		print  "Output contains invalid symbols for the decoder: "+ chars(stringOut)\inputD
+    				       end 
+					    
+					    end
+					else
+						print  "Input contains invalid symbols: "+ chars(string)\inputC
+    				end
+					else
+						if chars(string) ⊆ inputD then
+                     	result:=D.acceptsString(string)
+							print "The string was "+(result?"accepted":"not accepted")+" by the decoder. Output: "+D.getOutputString()	
+					else
+						print  "Input contains invalid symbols: "+ chars(string)\inputD
+    				end	
+				end
+				
+			end
+	
+	until false  
+	print "Execution Ended"
+ end
+ 
+ 
+
+

@@ -1,0 +1,88 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+using gold.structures.map.*
+
+     
+chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
+elements(array) :=  {array[i]| 0 <= i < |array| }
+
+procedure main(args:String[]) begin
+    m = createTransducer()
+    GAutomataFrame.show(m)
+	 test(m)
+end
+  
+        
+
+procedure test(M:ITransducer) begin
+	var sc:java.util.Scanner(System.$in)
+    
+     inputA = elements(M.getInputAlphabet())
+     
+	print  "input? (EXIT to stop)"
+		
+	string:=sc.nextLine() 
+
+    
+	while string != "EXIT" do
+		
+		 
+       if not(chars(string) ⊆ inputA ) then
+        print  "Input contains invalid symbols: "+ chars(string)\inputA
+       else
+       result:=M.acceptsString(string)    
+		div4 := M.getOutputString()
+		
+		print "The automaton did "+(result?"":"not ")+" accept the string."
+		if result then print "Result: " + div4 end		
+end
+       print "----------------------------"
+	print  "input? (EXIT to stop)"
+	
+	    string:=sc.nextLine() 
+
+	end
+print  "Good bye"
+print  ""
+
+end 
+
+ 
+
+
+
+ 
+function createTransducer():ITransducer begin
+	
+
+   Q:= {0,1,2,3,"f"}  
+	
+	Σ:=('0'‥'9') ∪ {'$'}  
+Out :=	('0'‥'9') ∪ {'R'}
+	 
+	q₀:=0
+	F:= {"f"}
+	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
+end
+
+function δ(q,s) begin
+   d:= s-'0'
+   		if q="f" or s='$' then return "f"
+   		else return  (10*q + d)%4
+ 		end 
+end
+
+function h(q,s) begin
+    d:= s-'0'
+    if q="f" then return λ
+   	 elseif s='$' then return q=0? λ: ("R"+q)
+    else return (10*q + d)÷4 
+end 
+end
+
+  
+
+function g(q) begin
+	 return λ
+		
+end

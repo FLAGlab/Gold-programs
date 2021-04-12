@@ -1,0 +1,60 @@
+using gold.**
+procedure main(args:String[]) begin
+	GAutomataFrame.show(createAutomaton())
+	Utilities.test(createAutomaton())
+	
+end
+function getName() begin
+	return "replace cat"
+end
+
+var delta : GHashTableMap()
+var outputT : GHashTableMap()
+
+function createAutomaton():IAutomaton begin
+	Q:={"_cat","c_at","ca_t","fin",0}
+	Σ:={'c','a','t','$'}
+	O:={'c','a','t','K','$'}
+	
+	q₀:="_cat"
+	F:={"fin"}
+	
+	
+	outputT.put(⟨"_cat",'c'⟩, "")
+	outputT.put(⟨"_cat",'$'⟩, "$")
+	outputT.put(⟨"_cat",'a'⟩, "a")
+	outputT.put(⟨"_cat",'t'⟩, "t")
+	
+	outputT.put(⟨"c_at",'c'⟩, "c")
+	outputT.put(⟨"c_at",'a'⟩, "")
+	outputT.put(⟨"c_at",'$'⟩, "c$")
+	outputT.put(⟨"c_at",'t'⟩, "ct")
+	
+	outputT.put(⟨"ca_t",'c'⟩, "ca")
+	outputT.put(⟨"ca_t",'$'⟩, "ca$")
+	outputT.put(⟨"ca_t",'a'⟩, "caa")
+	outputT.put(⟨"ca_t",'t'⟩, "K")
+	
+	delta.put(⟨"_cat",'c'⟩, "c_at")
+	delta.put(⟨"_cat",'a'⟩, "_cat")
+	delta.put(⟨"_cat",'t'⟩, "_cat")
+	delta.put(⟨"_cat",'$'⟩, "fin")
+	
+	delta.put(⟨"c_at",'$'⟩, "fin")
+	delta.put(⟨"c_at",'c'⟩, "c_at")
+	delta.put(⟨"c_at",'a'⟩, "ca_t")
+	delta.put(⟨"c_at",'t'⟩, "_cat")
+	
+	delta.put(⟨"ca_t",'c'⟩, "c_at")
+	delta.put(⟨"ca_t",'a'⟩, "_cat")
+	delta.put(⟨"ca_t",'t'⟩, "_cat")
+	delta.put(⟨"ca_t",'$'⟩, "fin")
+	
+	
+	return 	GDeterministicTransducer(Q,Σ,O,"_cat",F,δ,g,h)
+end
+ 
+g(x) :=  λ
+ 
+δ(q,s) := delta.containsKey(⟨q,s⟩)?delta.get(⟨q,s⟩):0
+h(q,s) := outputT.containsKey(⟨q,s⟩)?outputT.get(⟨q,s⟩):λ
