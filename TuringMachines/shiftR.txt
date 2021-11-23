@@ -1,0 +1,20 @@
+// Automaton type (ψ):
+ψ = TM
+// Turing Machine name (Z):
+Z = "shiftR"
+// Turing Machine nodes (N):
+N(0) = "LW[$s]R"
+N(1) = "LW[#]"
+N(2) = "R"
+// Turing Machine initial node (I):
+I = 2@0
+// Turing Machine edges (E):
+E(2,0) = "$s in {a,b,c,d}"
+E(0,2) = "!#"
+E(2,1) = "#"
+// Turing Machine layout (ξ)
+ξ(0)=(336.00,140.00)
+ξ(1)=(101.00,247.00)
+ξ(2)=(100.00,172.00)
+ξ(0,2)=(336.00,140.00,214.50,133.90,214.50,133.90,100.00,175.00)
+ξ(2,0)=(100.00,175.00,221.50,181.10,221.50,181.10,336.00,140.00)

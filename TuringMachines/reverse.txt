@@ -1,0 +1,21 @@
+// Automaton type (ψ):
+ψ = TM
+// Turing Machine name (Z):
+Z = "TM3"
+// Turing Machine nodes (N):
+N(0) = "R"
+N(1) = "W[#]R[#]W[$s]L"
+N(2) = "W[#]L[#]W[$c]"
+N(3) = "C[shiftR]"
+// Turing Machine initial node (I):
+I = 0@0
+// Turing Machine edges (E):
+E(0,1) = "$s in {a,b,c,d}"
+E(1,2) = "$c in {a,b,c,d}"
+E(2,0) = ""
+E(0,3) = "#"
+// Turing Machine layout (ξ)
+ξ(0)=(96.00,224.00)
+ξ(1)=(196.00,88.00)
+ξ(2)=(392.00,164.00)
+ξ(3)=(151.00,298.00)

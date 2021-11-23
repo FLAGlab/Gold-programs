@@ -1,0 +1,14 @@
+// Automaton type (ψ):
+ψ = TM
+// Turing Machine name (Z):
+Z = "callee"
+// Turing Machine nodes (N):
+N(0) = "W[b]"
+N(1) = "R"
+// Turing Machine initial node (I):
+I = 0@0
+// Turing Machine edges (E):
+E(0,1) = ""
+// Turing Machine layout (ξ)
+ξ(0)=(160.00,188.00)
+ξ(1)=(255.00,183.00)

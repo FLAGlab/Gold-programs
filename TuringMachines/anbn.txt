@@ -1,0 +1,30 @@
+// Automaton type (ψ):
+ψ = TM
+// Turing Machine name (Z):
+Z = "AB"
+// Turing Machine nodes (N):
+N(0) = "W[Y]L"
+N(1) = "L[X]"
+N(2) = "R[!Y]"
+N(3) = "R"
+N(4) = "W[X]R"
+N(5) = "L[X]"
+N(6) = "R[b]"
+// Turing Machine initial node (I):
+I = 3@0
+// Turing Machine edges (E):
+E(6,0) = "b"
+E(0,1) = ""
+E(1,3) = "X"
+E(3,2) = "Y"
+E(3,4) = "a"
+E(2,5) = "c"
+E(4,6) = ""
+// Turing Machine layout (ξ)
+ξ(0)=(582.34,432.71)
+ξ(1)=(582.74,476.71)
+ξ(2)=(366.34,488.71)
+ξ(3)=(364.00,420.00)
+ξ(4)=(424.00,388.00)
+ξ(5)=(452.00,492.00)
+ξ(6)=(504.00,388.00)
