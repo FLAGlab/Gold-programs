@@ -1,0 +1,24 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+
+procedure main(args:String[]) begin
+	Q := (0‥5)∪{"Error"}
+	Σ := {'0','1'}
+	qI := 0
+	F := {5}
+	A := GNondeterministicAutomaton(Q,Σ,qI,F,Δ)
+	GAutomataFrame.show(A)
+end
+
+function Δ(q, σ) begin
+	if q ∈ (1‥4) and σ ∈ {'0','1'} then
+		return {q+1}
+	elseif q == 0 and σ=='1' then
+		return {0,1}
+	elseif q == 0 and σ=='0' then
+		return {0}
+	else
+		return {"Error"}
+	end
+end

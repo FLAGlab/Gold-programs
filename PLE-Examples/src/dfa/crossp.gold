@@ -1,0 +1,26 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q1 := {'A', 'B'}
+	Q2 := ('a'‥'b')
+	Q := {⟨p,q⟩ | p ∈ Q1 , q ∈ Q2}
+	Σ := {'0','1'}
+	qI := ⟨'A','a'⟩
+	F1 := {'B'}
+	F2 := {'a'}
+	F := {⟨p,q⟩ | p ∈ F1 , q ∈ F2}
+	A := GDeterministicAutomaton(Q,Σ,qI,F,δ)
+	GAutomataFrame.show(A)
+end
+
+function δ(⟨p,q⟩, σ) begin
+	newp = Character.toChars((p-'A'+1)%2 + 'A')
+	if σ == '1' then
+		newq = Character.toChars((1-'a'+1)%2 + 'a')
+		return ⟨newp[0], newq[0]⟩
+	else
+		return ⟨newp[0], q⟩
+	end
+end
+	

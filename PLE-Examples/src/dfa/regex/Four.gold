@@ -1,0 +1,23 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := (0‥1)∪{"Error"}
+	Σ := {'0','1'}
+	qI := 1
+	F := {1}
+	A := GDeterministicAutomaton(Q,Σ,qI,F,δ)
+	GAutomataFrame.show(A)
+end
+
+function δ(q, σ) begin
+	if q== 1 and σ == '0' then
+		return 0
+	elseif σ == '1' and q ≠ "Error" then
+		return 1
+	else
+		return "Error"
+	end
+end
+	
+

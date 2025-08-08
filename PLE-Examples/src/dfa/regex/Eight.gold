@@ -1,0 +1,26 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := (0‥3)
+	Σ := {'0','1'}
+	qI := 0
+	F := {3}
+	A := GDeterministicAutomaton(Q,Σ,qI,F,δ)
+	GAutomataFrame.show(A)
+end
+
+function δ(q, σ) begin
+	if q == 0  then
+		return 1
+	elseif q == 1  then 
+		return 2
+	else 
+		return 3
+	end
+end
+	
+
+
+
+
