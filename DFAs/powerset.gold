@@ -28,6 +28,7 @@ procedure main(args:String[]) begin
 	else	
 		A := {args[0].charAt(i) |  0 ≤ i < args[0].length()}\{'$'}
     end
+    print(A)
     M := create()
    //GAutomataFrame.show(M)
    testPerm(M)
