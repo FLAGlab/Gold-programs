@@ -1,0 +1,253 @@
+using gold.**
+
+var currentString: String
+var images: GArrayList()
+
+var allSymbols: ISet
+var keyWords: ISet
+var skipChars: ISet
+
+var  preKW : ISet
+var  preOps :ISet
+
+var StartOps:ISet
+var Symbols1: ISet
+
+var CharsSymbols1: ISet
+
+var alphaUpper:ISet
+var alphaLower :ISet
+var digits :ISet
+
+var alphaNum : ISet
+
+var Out : ISet
+var diffIdents : Boolean
+
+var Ids: ISet
+var translation : GHashTableMap()
+    
+toSet(C) :=  {x|  x in C}
+
+charsStrings(strings) := (∪ s | s ∈ strings: toSet(s) )
+
+
+//chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
+//charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
+//elements(array) :=  {array[i]| 0 <= i < |array| }
+         
+prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
+splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
+
+allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
+
+translationGet(q) :=  ((|q|=1 and q ∈Symbols1 and q != '\n')?q:translation.get(q))
+
+ function runLexer(M, input) begin 
+ 		currentString :=  λ
+        images := GArrayList()
+       	result:= M.acceptsString(input) 
+ 		return ⟨result,images⟩
+ end
+ 
+ function problems(q: String) begin
+    if q in allSymbols then return false
+    elseif |q|≤1  then return true
+    else
+    	for each ⟨s,t⟩ in splits(q) do
+         if not problems(s) and not problems(t) then return false end
+       end
+       return true
+	end
+   	
+ end
+ 
+ 
+ 	
+ 	
+ 	function translationPreOps(state) begin
+ 	 var x, y
+ 	 var q: String
+ 	 q:= state
+ 	 n := q.length()
+ 	 if n=0 then return λ
+ 	 elseif q  ∈ allSymbols then 
+ 	 	images.add(q)
+ 	 	return translationGet(q)  
+ 	 elseif n=1 then return λ
+ 	 else  
+ 	 	 for each ⟨s,t⟩ in splits(q) do
+ 	     	x:=translationPreOps(s)
+       	y:=translationPreOps(t) 
+          	if x≠ λ  and  y≠λ then 
+            return x+y end
+        end
+        
+ 	    return   λ
+ 	     
+   end
+
+ end
+ 	
+ 	
+ 	
+ 
+
+
+function createLexer():ITransducer begin
+   initialize()
+	preOps := allPrefixes(allSymbols)
+ 	preKW  := allPrefixes(keyWords)
+	StartOps := (∪ x | x ∈ allSymbols: {x.charAt(0)} ) 
+	Symbols1 := ((∪ x | x ∈ StartOps: {""+x} ) ∩ allSymbols) // \ {"\n"}  add this if \n  is a token 
+	CharsSymbols1 := (∪ x | x ∈ Symbols1: {x.charAt(0)} )
+	Out := CharsSymbols1 ∪ (∪ x | x ∈ translation.values(): {x} )
+	Ids:= {"IdU","IdL"}
+    Q:= {"INIT","IdU","Num","Err","IdL"} ∪ preKW ∪ preOps 
+	Σ:= alphaNum ∪ charsStrings(allSymbols) ∪ skipChars ∪ {':','-'}
+	q₀:="INIT"
+	F:= {"INIT"}
+	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
+end
+
+function δ(state,σ) begin
+  
+ 
+   var q: String
+   q := state
+   
+   if q = "Err" then return "Err" 
+   elseif q ∈ preOps  then
+ 		if q+σ in preOps then   return q+σ 
+     	elseif problems(q) then  return "Err"
+    	elseif σ ∈ skipChars  then return "INIT"	
+     	elseif  σ in ('0'‥'9') then  return "Num"
+       	elseif  λ+σ in preKW then return λ+σ
+       	elseif  σ in alphaUpper  then return "IdU"	
+       	elseif  σ in alphaLower  then return "IdL"	
+       	elseif  λ+σ in preOps then	 return λ+σ
+       	else return "Err"
+  		end	  	
+    elseif  σ ∈ skipChars and q ∈ preKW and not (q∈keyWords) and q.charAt(0)=':'   then return "Err"	
+    elseif  σ ∈ skipChars   then return "INIT"	
+    elseif q="INIT" and  σ in ('0'‥'9') then  return "Num"
+    elseif q="INIT" and  λ+σ in preKW then return λ+σ
+    elseif q = "INIT" and σ in alphaUpper  then return "IdU"
+    elseif q = "INIT" and σ in alphaLower  then return "IdL"	
+    elseif q = "INIT" and  λ+σ in preOps then	 return λ+σ
+    elseif q ∈ preKW  and (q+σ) in preKW then return q+σ 	
+    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaUpper then return "IdU"
+    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaLower then return "IdL"
+    elseif q ∈ preKW  and  λ+σ in preOps then	 return λ+σ
+    elseif q = "Num" and  σ in ('0'‥'9') then  return "Num"
+    elseif q = "Num" and  λ+σ in preOps  then return λ+σ
+    elseif q = "Num" and σ in alphaNum  then return "Err"	
+    elseif q ∈ Ids  and σ in alphaNum  then return q
+    elseif q ∈ Ids and  λ+σ in preOps  then return λ+σ
+    else return "Err"
+	end	
+end 
+
+ 
+
+
+function g(q) begin
+	return λ
+end
+
+function h(q,σ) begin
+	var s: String
+	
+	
+	s :=(σ = '\n')?"\\n": (λ+σ)  
+    
+  if q ∈ preOps  then
+       if σ ∈ skipChars and q ∈ allSymbols then 
+       	images.add(currentString)
+       	currentString := λ
+       	return translationGet(q)
+       elseif q+σ in preOps then 
+       	currentString := currentString + s
+       	return λ
+       elseif σ ∈ (StartOps ∪ alphaNum) and q ∈ allSymbols then 
+       	images.add(currentString)
+       	currentString := λ  + s
+       	return translationGet(q)
+      elseif σ ∈ (StartOps ∪ alphaNum ∪ skipChars∪{':'})  then 
+      	   currentString := λ  + s
+      	   return translationPreOps(q)
+       else	
+       	currentString := currentString + s
+       	return λ
+       end
+     
+     
+   elseif q ∉ {"Err"} and σ ∈ skipChars  ∪ StartOps then
+		if q="INIT" then 
+		   currentString := (σ ∈ StartOps)? s:λ
+			return λ
+    	elseif translationGet(q)=null then 
+					
+         
+        
+          images.add(currentString)
+          currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
+       	 
+       	 f= q.charAt(0)
+       	 if f in alphaUpper then return translationGet("IdU")
+       	 elseif f in alphaLower then 
+       	 return translationGet("IdL")
+       	 else  return null
+       	end
+    	else 
+    		
+    		images.add(currentString)
+       	currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
+    		return translationGet(q)
+    	end
+ 		
+ 		
+ 		
+    else 
+    	 currentString := currentString + s
+    	return  λ
+
+end
+end
+
+// **************  This is the only  procedure that is different for each lexer.  
+//***   Everything  above  does not  change  for different  lexers  
+ procedure initialize() begin
+ 
+ 	skipChars := {' ', '\t', '\n'}
+	alphaUpper := ('A'‥'Z')
+   alphaLower := ('a' ‥ 'z') 
+   digits :=  ('0'‥'9')
+	alphaNum := alphaUpper ∪ alphaLower ∪ digits       // Alphanumeric characters
+
+	keyWords := {"plus","times","div","sub"}  // keywords
+	allSymbols := {"(", ")"  }  // Symbols  and brackets, both single char and  multicharacter
+	
+	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
+	
+	// Operators can be translated as themselves
+	
+	// translation.put("\n",'Φ')  only use this if \n is part of the language and is not skipped
+	 
+	 translation.put("plus",'+')
+	 translation.put("times",'*')
+	 translation.put("sub",'-')
+	 translation.put("div",'/')
+	 translation.put("IdL",'v')  
+	 translation.put("IdU",'v')  //if  there is no difference between names that start with caps and those that don't,
+	    							//assign the same translation
+	 
+	 translation.put("Num",'n')
+	
+	 // **************
+	 
+	    
+	
+end
+
+

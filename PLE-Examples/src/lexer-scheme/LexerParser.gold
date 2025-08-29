@@ -1,0 +1,234 @@
+ //GAutomataFrame.show(Parser2)
+using gold.**
+
+
+
+	//  (lexer and parser) for the following language:
+	//  E ->   num
+	//  E ->    vari
+	//  E ->  (plus L)
+	//  E ->  (times L)  
+	//  E ->  (sub L)  
+	//  E ->  (div L)  
+	//  L ->  E
+	//  L ->  L E
+	//    Tokens:
+	//    num  ::=  (digit)+
+	//    var  ::=   (letter)(digit | letter)*
+	
+	  
+	
+	
+toSet(C) :=  {x|  x in C}
+charsStrings(strings) := (∪ s | s ∈ strings: toSet(s) )
+
+   
+   
+get1(⟨r,i⟩):= r
+get2(⟨r,i⟩):= i
+  
+var lexer:GDeterministicTransducer
+var parser:GPushdownAutomaton
+	
+	
+	
+	
+procedure main(args:String[]) begin
+    lexer = LexerMiniScheme.createLexer() 
+    
+	parser2 = createAutomaton2(lexer.getOutputAlphabet())
+   parser = createAutomaton(lexer.getOutputAlphabet())
+   stdin= java.util.Scanner(System.$in)
+   print "Do you want to use the parser that implements the grammar directly (1 for YES)"
+  var mode:String
+  mode := stdin.nextLine()
+
+
+  // GAutomataFrame.show(Lexer)
+   
+  
+  if mode.charAt(0) ='1' then   
+      
+      GAutomataFrame.show(parser)
+     testLexerParser1(lexer,parser)
+   
+   else 
+    
+    GAutomataFrame.show(parser2)
+    
+     testLexerParser1(lexer,parser2)
+    end  
+    end
+    
+      
+    
+
+ 
+
+
+ 
+function createAutomaton(Terms):IPushdownAutomaton begin
+	// This automaton implements a top down parser for this  grammar
+	//
+	//  E -> n
+	//  E ->  v
+	//  E ->  (+L)
+	//  E ->  (*L)
+	//  L ->  E
+	//  L ->  L E
+	
+	
+	NonTerms := {'E','L'}
+	Q:={"I","q","F"}
+	
+	SkipChars := {' ', '\n'}  // this will only be used when testing the parser  as a  stand alone  procedure
+	Σ:=toSet(Terms)  ∪ SkipChars
+	Γ:=toSet(Terms) ∪ NonTerms ∪ { '$'} 
+	q₀:="I"
+	F:={"F"}
+	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+	
+	M.delta("I","q","").push("$E")
+	M.delta("q","F","").pop("$")
+	
+	for each x in {'(',')','+','*','/','-','v','n'} do
+	  M.delta("q","q",""+x).pop(""+x)
+	end
+	M.delta("q","q","").changeTop("E","v")
+	M.delta("q","q","").changeTop("E","n")
+	M.delta("q","q","").changeTop("E",")L/(")
+	M.delta("q","q","").changeTop("E",")L-(")
+	M.delta("q","q","").changeTop("E",")L+(")
+   M.delta("q","q","").changeTop("E",")L*(")
+	M.delta("q","q","").changeTop("L","E")
+	M.delta("q","q","").changeTop("L","EL")
+	
+	// skip chars : only used when parser is  invoked  as a stand-alone procedure
+	M.delta("q","q"," ").ignore()
+	M.delta("q","q","\n").ignore()
+	
+return M
+end
+
+function createAutomaton2(Terms):IPushdownAutomaton begin
+	
+	//  We define an automaton that keeps track of open parenthesis
+	//  Two states:  I and F
+	//     I is the initial state
+	//    F:  final state
+	//     In I: read   (@   where @ ∈ {+,-,/,*}, push 1, stay in I
+	//        reading n or v : switch states
+	//     In F: reading ) pop 1
+    //   Switch to I if there's a 1 on the stack not reading anything
+		
+	
+	NonTerms := {'E','L'}
+	Q:={"I","F"}
+	SkipChars := {' ', '\n'}   // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	Σ:=toSet(Terms)  ∪ {' ', '\n'}
+	Γ:={'1'}
+	q₀:="I"
+	F:={"F"}
+	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+	
+	M.delta("I","I","(+").push("1")
+	M.delta("I","I","(*").push("1")
+	M.delta("I","I","(/").push("1")
+	M.delta("I","I","(-").push("1")
+	
+	M.delta("I","F","v").ignore()
+	M.delta("I","F","n").ignore()
+	M.delta("F","F",")").pop("1")
+	M.delta("F","I","").$skip("1")
+
+ // this will only  be used when testing only the parser as the lexer removes  SkipChars
+ 
+ for each q in Q do
+ 	for each s in SkipChars do
+ 	   M.delta(q,q,λ+s).ignore()
+ end
+ end
+
+return M
+end
+
+  
+
+ procedure testLexerParser1(M:ITransducer, P:IPushdownAutomaton) begin
+	var sc:java.util.Scanner(System.$in)
+ 	var string:String	
+    
+  	inputA = toSet(M.getInputAlphabet())
+   	inputP = toSet(P.getInputAlphabet())
+    
+	input = ""
+	
+	print "----------------------------"
+	print "Enter one or more lines. End with a single line with $"
+ 	print "If you want to stop testing, enter EXIT"
+ 
+ 	string:=sc.nextLine() 
+       
+   while string != "EXIT" do
+		string := string + "  \n "	
+      	input := ""
+      	while string.charAt(0) != '$' do
+ 			input := input + string 
+          string:=sc.nextLine() + " \n "
+       end
+       string := input		
+       option := λ
+       while option  ∉ {"1","2", "3"} do
+        	print "What do you want to do?"
+			print "1. Lexer only?" 
+			print "2. Lexer and parser?"
+			print "3. Parser?"
+		 	option := sc.nextLine()
+		end
+       stringOut:= ""
+ 		if option="1" or option="2"  then
+      		if toSet(string) ⊆ inputA then
+         		result:=LexerMiniScheme.runLexer(M, input)
+       		ok:=get1(result)
+		   		images:=get2(result)
+		   		stringOut = M.getOutputString()
+				if not(ok) then
+					print "Input was not accepted . Partial token stream: "+stringOut
+					print "Strings: "+images
+				else
+					print "Input was accepted. Token stream: "+stringOut
+					print "Strings: "+images
+					if option="2" then	
+						if toSet(stringOut) ⊆ inputP then
+					    	result:=P.acceptsString(stringOut)
+							print "The parser did "+(result?"accept ":"not accept")+" the token stream."
+						 else
+					       print  "Output contains invalid symbols for the Parser: "+ toSet(stringOut)\inputP
+    				    end 
+					 end
+				end
+			else 
+				print  "Input contains invalid symbols: "+ toSet(string)\inputA
+    	   end
+		else // option = 3
+			if toSet(string) ⊆ inputP then
+           	result:=P.acceptsString(string)
+				print "The string was "+(result?"accepted":"not accepted")+" by the parser. "
+			else
+				print  "Input contains invalid symbols: "+ toSet(string)\inputP
+    		end	
+		end
+	    print "----------------------------"
+	
+	   print "Enter one or more lines. End with a single line with $"
+       print "If you want to stop testing, enter EXIT"
+       string:=sc.nextLine()
+       
+end
+print  "Good bye"
+print  ""
+
+end 
+ 
+
+
