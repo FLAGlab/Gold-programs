@@ -1,0 +1,22 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := {"A", "B", "C"}
+	Σ := {'a', 'b'}
+	Γ := {'S', 'a','b', '$'}
+	qI := "A"
+	F := {"C"}
+	A := GPushdownAutomaton(Q, Σ, Γ, qI, F)
+	A.delta("A", "B", λ).push("$")
+	A.delta("B", "B", "a").pop("a")
+	A.delta("B","B","b").pop("b")
+	A.delta("B","B",λ).changeTop("S", "ba")
+	A.delta("B","B",λ).changeTop("$", "bSa")
+	A.delta("B","B",λ).changeTop("S", "bSa")
+	A.delta("B", "C", λ).pop("$")
+	
+	
+	
+	GAutomataFrame.show(A)
+end
