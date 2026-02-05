@@ -5,6 +5,15 @@ procedure main(args:String[]) begin
 	 Set := {}
 	 elem := 4
 	 
+	 
+	 //tuples
+	 tuple := ⟨1, 2⟩
+	 triplet := ⟨"a", 42, true⟩
+	 
+	 //set of tuples
+	 ST := {⟨a,b⟩ | a ∈ Set1, b ∈ Set2}
+	 
+	 
 	 //conditionals
 	 if elem in Set1 then
      	Set = Set1 \ {elem}
