@@ -3,7 +3,7 @@ using gold.visualization.automaton.*
 
 procedure main(args:String[]) begin
 	Q := {"Just1", "Read0", "Read01"}
-	Σ := {'0', '1'}
+	Σ := (0‥1)
 	q := "Just1"
 	F := {"Read01"}
 	

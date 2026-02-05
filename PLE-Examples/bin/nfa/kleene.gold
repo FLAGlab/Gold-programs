@@ -1,0 +1,14 @@
+using gold.**
+
+
+procedure main(args:String[]) begin
+	var M₁:IAutomaton,M₂:IAutomaton,M:IAutomaton
+	L2a:=GAutomata.parse("ab","A","C","A-a-A,A-a-B,A-b-A,B-b-A,B-a-C,C-λ-A")
+	Lb:=GAutomata.parse("ab","W","Z","W-a-W,W-b-W,W-b-Z,Z-b-Z,Z-a-Z")
+	var frame:GAutomataFrame()
+	frame.display("L2a",L2a)
+	frame.display("Lb",Lb)
+	frame.display("Lb*",Lb.kleeneStar())
+	frame.display("L2a*",L2a.kleeneStar())
+	frame.setVisible(true)
+end
