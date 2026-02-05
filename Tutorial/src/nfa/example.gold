@@ -1,0 +1,17 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q:= {"A", "C", "D", "E"}
+	Σ:= ('a'‥'b')
+	q₀:= "E"
+	F:={"C"}
+	Δ:=⟦⟦"A",'λ',"C"⟧,⟦"A",'a',"D"⟧,
+		⟦"D",'λ',"C"⟧,
+		⟦"C",'λ',"E"⟧,
+		⟦"E",'a',"E"⟧,⟦"E",'b',"E"⟧,⟦"E",'b',"A"⟧⟧
+	A := GNondeterministicAutomaton(Q, Σ, q₀, F, Δ)
+	GAutomataFrame.show(A)
+end
+
+ 
